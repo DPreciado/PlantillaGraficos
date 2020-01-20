@@ -3,7 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define GLEW_STATIC
+
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 
 #include <iostream>
 
@@ -31,6 +35,19 @@ int main()
 
 	//Establecemos la ventana como contexto
 	glfwMakeContextCurrent(window);
+
+	//Una vez establecido el contexto se activan las funciones "modernas" (GPU)
+	glewExperimental = true;
+
+	GLenum errores = glewInit();
+	if (errores != GLEW_OK)
+	{
+		glewGetErrorString(errores);
+	}
+
+	const GLubyte* versionGL = glGetString(GL_VERSION);
+	cout << "Version OpenGL: " << versionGL;
+
 	//ciclo de dibujo (Draw loop)
 	while (!glfwWindowShouldClose(window)) {
 		//Establecer region de dibujo
